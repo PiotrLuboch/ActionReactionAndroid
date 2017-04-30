@@ -1,5 +1,8 @@
 package com.project.pluboch.actionreaction;
 
+import com.project.pluboch.actionreaction.actions.AbstractUserAction;
+import com.project.pluboch.actionreaction.reactions.AbstractUserReaction;
+
 /**
  * Created by piotr on 20.04.17.
  */
@@ -13,6 +16,7 @@ public class ActionReaction {
     public ActionReaction(String title) {
         this.title = title;
     }
+
     public ActionReaction(String title, AbstractUserAction userAction, AbstractUserReaction userReaction) {
         this.title = title;
         this.userAction = userAction;

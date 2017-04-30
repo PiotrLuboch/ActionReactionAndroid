@@ -44,11 +44,12 @@ public class ActionReactionAdapter extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.list_item_view, parent, false);
 
         TextView title = (TextView) rowView.findViewById(R.id.txtActionReactionTitle);
-
         ActionReaction actionReaction = (ActionReaction) getItem(position);
         title.setText(actionReaction.getTitle());
-
-
+        TextView action = (TextView) rowView.findViewById(R.id.txtAction);
+        action.setText("Action: " + actionReaction.getUserAction().toString());
+        TextView reaction = (TextView) rowView.findViewById(R.id.txtReaction);
+        reaction.setText("Reaction: " + actionReaction.getUserReaction().toString());
         return rowView;
     }
 }

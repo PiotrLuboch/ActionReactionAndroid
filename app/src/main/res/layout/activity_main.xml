@@ -8,24 +8,27 @@
 
     <ListView
         android:id="@+id/listView"
+        style="@style/Widget.AppCompat.ListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_column="0"
-        app:layout_row="0" />
+        app:layout_row="0"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="61dp"
         android:layout_height="61dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="6dp"
+        android:adjustViewBounds="false"
+        android:clickable="true"
+        android:onClick="openEditActivity"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
         app:layout_column="0"
         app:layout_gravity="bottom|right"
         app:layout_row="0"
-        android:adjustViewBounds="false"
-        android:clickable="true"
-        android:layout_marginBottom="6dp"
-        android:layout_marginRight="6dp"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.v7.widget.GridLayout>
