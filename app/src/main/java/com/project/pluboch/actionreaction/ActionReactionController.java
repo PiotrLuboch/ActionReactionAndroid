@@ -1,31 +1,41 @@
 package com.project.pluboch.actionreaction;
 
 import android.app.Notification;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 
 import com.project.pluboch.actionreaction.actions.AbstractUserAction;
 import com.project.pluboch.actionreaction.actions.TimeUserAction;
 import com.project.pluboch.actionreaction.actions.UserActionType;
+import com.project.pluboch.actionreaction.dbpersistence.DbManager;
 import com.project.pluboch.actionreaction.reactions.AbstractUserReaction;
 import com.project.pluboch.actionreaction.reactions.UserReactionType;
 import com.project.pluboch.actionreaction.reactions.VolumeUserReaction;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by piotr on 20.04.17.
  */
 
 public class ActionReactionController {
-    private static ArrayList<ActionReaction> actionReactions = new ArrayList<ActionReaction>() {{
-        add(new ActionReaction("Job arrival", new TimeUserAction(UserActionType.LOCATION), new VolumeUserReaction(UserReactionType.VOLUME)));
-        add(new ActionReaction("Battery low", new TimeUserAction(UserActionType.BATERY_STATE), new VolumeUserReaction(UserReactionType.VOLUME)));
-        add(new ActionReaction("Home WiFi detected", new TimeUserAction(UserActionType.WIFI_NAME), new VolumeUserReaction(UserReactionType.VOLUME)));
-        add(new ActionReaction("Work WiFi detected", new TimeUserAction(UserActionType.WIFI_NAME), new VolumeUserReaction(UserReactionType.VOLUME)));
-        add(new ActionReaction("Home arrival", new TimeUserAction(UserActionType.LOCATION), new VolumeUserReaction(UserReactionType.VOLUME)));
-        add(new ActionReaction("Max volume after sms", new TimeUserAction(UserActionType.SMS_RECIEVED), new VolumeUserReaction(UserReactionType.VOLUME)));
-        add(new ActionReaction("Unmute at 7 am", new TimeUserAction(UserActionType.TIME), new VolumeUserReaction(UserReactionType.VOLUME)));
-    }};
+    private ArrayList<ActionReaction> actionReactions = new ArrayList<>();
     private static ActionReaction selectedActionReaction;
+
+    private ActionReaction actionReaction;
+
+    public ActionReactionController() {
+    }
+
+    public ActionReactionController(ActionReaction actionReaction) {
+        this.actionReaction = actionReaction;
+    }
 
     public ArrayList<ActionReaction> getActionReactionList() {
         return actionReactions;
@@ -33,6 +43,10 @@ public class ActionReactionController {
 
     public void addActionReaction(ActionReaction actionReaction) {
         actionReactions.add(actionReaction);
+    }
+
+    public void addActionReaction(List<ActionReaction> actionReactions){
+        actionReactions.addAll(actionReactions);
     }
 
     public ActionReaction getSelectedActionReaction() {
@@ -43,7 +57,34 @@ public class ActionReactionController {
         selectedActionReaction = actionReactions.get(position);
     }
 
-    public boolean isConditionMeet(){
-        return false;
+    public void registerBroadcastReceiver(Context context, final String... intentActions) {
+        IntentFilter filter = new IntentFilter();
+        for (String s : intentActions) {
+            filter.addAction(s);
+        }
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            private ActionReactionController actionReactionController = new ActionReactionController(actionReaction);
+            private List<String> actions = Arrays.asList(intentActions);
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (actions.contains(action) && actionReactionController.isConditionTrue()) {
+                    actionReactionController.performReaction();
+                    Log.i("ARController",actionReactionController.actionReaction.getUserAction().getUserActionType().toString());
+                }
+            }
+        };
+
+        actionReaction.setBroadcastReceiver(broadcastReceiver);
+        context.registerReceiver(broadcastReceiver, filter);
+    }
+
+    public boolean isConditionTrue() {
+        return actionReaction.getUserAction().isConditionTrue();
+    }
+
+    public void performReaction() {
+        actionReaction.getUserReaction().performReaction();
     }
 }

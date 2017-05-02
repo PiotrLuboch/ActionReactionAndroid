@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.pluboch.actionreaction">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +19,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -20,7 +28,27 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ListItemDetailsActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".actions.activities.TimeAction"
+            android:parentActivityName=".EditActionReactionActivity" />
+        <activity
+            android:name=".reactions.activities.VolumeReaction"
+            android:parentActivityName=".EditActionReactionActivity" />
+        <activity
+            android:name=".actions.activities.WifiNameAction"
+            android:parentActivityName=".EditActionReactionActivity" />
+        <activity
+            android:name=".reactions.activities.SmsSendReaction"
+            android:parentActivityName=".EditActionReactionActivity" />
+
+        <uses-library android:name="com.google.android.maps" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCyhJTsLPnCVmf8B7zRS7OCJlt2-QO66KY" />
+
+
     </application>
 
 </manifest>

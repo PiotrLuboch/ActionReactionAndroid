@@ -6,7 +6,8 @@ package com.project.pluboch.actionreaction.actions;
 
 public abstract class AbstractUserAction {
     private UserActionType userActionType;
-
+    protected int paramNumber = 0;
+    public static final  String DELIMETER = "<<||>>";
     public AbstractUserAction(UserActionType userActionType) {
         this.userActionType = userActionType;
     }
@@ -26,4 +27,12 @@ public abstract class AbstractUserAction {
         this.userActionType = userActionType;
     }
 
+
+    public abstract boolean isConditionTrue();
+
+    public abstract String dbParamsRepresentation();
+
+    public int getParamNumber() {
+        return paramNumber;
+    }
 }

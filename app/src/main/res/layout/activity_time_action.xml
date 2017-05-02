@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.pluboch.actionreaction.actions.activities.TimeAction">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:headerBackground="@color/colorPrimaryDark"
+        tools:layout_marginLeft="8dp"
+        tools:layout_marginRight="8dp"
+        tools:layout_marginTop="8dp"
+        app:layout_column="0"
+        app:layout_row="0"/>
+
+    <Button
+        android:id="@+id/btnTimeConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        app:layout_column="0"
+        app:layout_row="1"
+        app:layout_gravity="center"
+        android:onClick="finishTimeAction"/>
+</android.support.v7.widget.GridLayout>

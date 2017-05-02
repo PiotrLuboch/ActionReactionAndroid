@@ -1,21 +1,25 @@
 package com.project.pluboch.actionreaction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.project.pluboch.actionreaction.dbpersistence.DbManager;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActionReactionController actionReactionController = new ActionReactionController();
     private Context context;
+    private ActionReactionAdapter actionReactionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         final ArrayList<ActionReaction> actionReactions = actionReactionController.getActionReactionList();
-        final ActionReactionAdapter actionReactionAdapter = new ActionReactionAdapter(this, actionReactions);
+        actionReactionAdapter = new ActionReactionAdapter(this, actionReactions);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(actionReactionAdapter);
 
@@ -36,10 +40,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(detailIntent);
             }
         });
+
+        DbManager dbManager = new DbManager(getApplicationContext());
+        List<ActionReaction> allActionReactions = dbManager.getAllActionReactions(getApplicationContext(), this);
     }
 
-    public void openEditActivity(View view){
+    public void openEditActivity(View view) {
         Intent editIntent = new Intent(context, EditActionReactionActivity.class);
-        startActivity(editIntent);
+        startActivityForResult(editIntent, 1000);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK)
+            return;
+
+        switch (requestCode) {
+            case 1000:
+                actionReactionAdapter.notifyDataSetChanged();
+                break;
+        }
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package com.project.pluboch.actionreaction;
 
+import android.content.BroadcastReceiver;
+
 import com.project.pluboch.actionreaction.actions.AbstractUserAction;
 import com.project.pluboch.actionreaction.reactions.AbstractUserReaction;
 
@@ -12,6 +14,10 @@ public class ActionReaction {
 
     private AbstractUserAction userAction;
     private AbstractUserReaction userReaction;
+    private BroadcastReceiver broadcastReceiver;
+
+    public ActionReaction() {
+    }
 
     public ActionReaction(String title) {
         this.title = title;
@@ -45,5 +51,13 @@ public class ActionReaction {
 
     public void setUserAction(AbstractUserAction userAction) {
         this.userAction = userAction;
+    }
+
+    public BroadcastReceiver getBroadcastReceiver() {
+        return broadcastReceiver;
+    }
+
+    public void setBroadcastReceiver(BroadcastReceiver broadcastReceiver) {
+        this.broadcastReceiver = broadcastReceiver;
     }
 }

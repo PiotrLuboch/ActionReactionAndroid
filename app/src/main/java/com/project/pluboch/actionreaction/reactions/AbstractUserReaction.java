@@ -6,6 +6,8 @@ package com.project.pluboch.actionreaction.reactions;
 
 public abstract class AbstractUserReaction {
     private UserReactionType userReactionType;
+    public static final String DELIMETER = "<<||>>";
+    protected int paramNumber = 0;
 
     public AbstractUserReaction(UserReactionType userActionType) {
         this.userReactionType = userActionType;
@@ -17,12 +19,19 @@ public abstract class AbstractUserReaction {
     }
 
 
-
-    public UserReactionType getUserActionType() {
+    public UserReactionType getUserReactionType() {
         return userReactionType;
     }
 
     public void setUserActionType(UserReactionType userActionType) {
         this.userReactionType = userActionType;
+    }
+
+    public abstract void performReaction();
+
+    public abstract String dbParamsRepresentation();
+
+    public int getParamNumber() {
+        return paramNumber;
     }
 }
